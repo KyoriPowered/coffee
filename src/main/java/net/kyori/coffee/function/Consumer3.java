@@ -24,8 +24,7 @@
 package net.kyori.coffee.function;
 
 /**
- * An operation that accepts three input arguments and returns no
- * result, potentially throwing an exception if the operation fails.
+ * An operation that accepts three input arguments and returns no result.
  *
  * @param <T1> the first argument type
  * @param <T2> the second argument type
