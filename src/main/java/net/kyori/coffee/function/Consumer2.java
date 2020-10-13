@@ -23,52 +23,21 @@
  */
 package net.kyori.coffee.function;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-
 /**
- * A function that accepts three arguments and produces a result.
+ * An operation that accepts two input arguments and returns no result.
  *
  * @param <T1> the first argument type
  * @param <T2> the second argument type
- * @param <T3> the third argument type
- * @param <R> the result type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface Function3<T1, T2, T3, R> extends Function2<T1, T2, Function1<T3, R>> {
+public interface Consumer2<T1, T2> {
   /**
-   * Applies this function to the given arguments.
+   * Performs this operation on the given arguments.
    *
    * @param t1 the first argument
    * @param t2 the second argument
-   * @param t3 the third argument
-   * @return the result
    * @since 1.0.0
    */
-  R apply(final T1 t1, final T2 t2, final T3 t3);
-
-  /**
-   * Partially applies this function to the given argument.
-   *
-   * @param t1 the first argument
-   * @return the result
-   * @since 1.0.0
-   */
-  @Override
-  default @NonNull Function2<T2, T3, R> apply(final T1 t1) {
-    return (t2, t3) -> this.apply(t1, t2, t3);
-  }
-
-  /**
-   * Partially applies this function to the given arguments.
-   *
-   * @param t1 the first argument
-   * @param t2 the second argument
-   * @return the result
-   * @since 1.0.0
-   */
-  @Override
-  default @NonNull Function1<T3, R> apply(final T1 t1, final T2 t2) {
-    return t3 -> this.apply(t1, t2, t3);
-  }
+  void accept(final T1 t1, final T2 t2);
 }
