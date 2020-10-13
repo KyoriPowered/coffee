@@ -51,7 +51,7 @@ dependencies {
   api("org.checkerframework:checker-qual:3.7.0")
   checkstyle("ca.stellardrift:stylecheck:0.1")
   testImplementation("com.google.guava:guava-testlib:29.0-jre")
-  testImplementation("com.google.truth:truth:0.42")
+  testImplementation("com.google.truth:truth:1.0.1")
   testImplementation("com.google.truth.extensions:truth-java8-extension:0.42")
   testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
   testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.0")
