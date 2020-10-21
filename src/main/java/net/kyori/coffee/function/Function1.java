@@ -70,13 +70,13 @@ public interface Function1<T1, R> {
    * Maps {@code t1} using {@code function}, and then returns the result.
    *
    * @param t1 the first argument
-   * @param function the function
+   * @param fn1 the function
    * @param <T1> the first argument type
    * @param <R> the result type
    * @return the result of mapping {@code t1} using {@code function}
    * @since 1.0.0
    */
-  static <T1, R> R map(final T1 t1, final @NonNull Function1<T1, R> function) {
-    return function.apply(t1);
+  static <T1, R> R map(final T1 t1, final @NonNull Function1<T1, R> fn1) {
+    return fn1.apply(t1);
   }
 }

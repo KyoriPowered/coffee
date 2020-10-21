@@ -24,20 +24,20 @@
 package net.kyori.coffee.function;
 
 /**
- * A supplier of results, potentially throwing an exception if the result cannot be supplied.
+ * A function that accepts zero arguments and produces a result, potentially throwing an exception.
  *
  * @param <T> the result type
  * @param <E> the potential exception type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface SupplierE<T, E extends Throwable> {
+public interface Function0E<T, E extends Throwable> {
   /**
-   * Gets a result.
+   * Applies this function.
    *
    * @return a result
    * @throws E potential exception
    * @since 1.0.0
    */
-  T get() throws E;
+  T apply() throws E;
 }

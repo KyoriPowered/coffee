@@ -46,13 +46,13 @@ public interface Consumer1<T1> {
    * Provides {@code t1} to {@code consumer}, and then returns {@code t1}.
    *
    * @param t1 the first argument
-   * @param consumer the consumer
+   * @param c1 the consumer
    * @param <T1> the first argument type
    * @return the first argument
    * @since 1.0.0
    */
-  static <T1> @PolyNull T1 tap(final @PolyNull T1 t1, final @Nullable Consumer1<T1> consumer) {
-    if(consumer != null) consumer.accept(t1);
+  static <T1> @PolyNull T1 tap(final @PolyNull T1 t1, final @Nullable Consumer1<T1> c1) {
+    if(c1 != null) c1.accept(t1);
     return t1;
   }
 }
