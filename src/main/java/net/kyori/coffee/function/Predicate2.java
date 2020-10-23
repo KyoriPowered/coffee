@@ -32,7 +32,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @param <T2> the second argument type
  * @since 1.0.0
  */
-public interface Predicate2<T1, T2> {
+public interface Predicate2<T1, T2> extends Function2<T1, T2, Boolean> {
   /**
    * Evaluates this predicate on the given argument.
    *
@@ -42,6 +42,11 @@ public interface Predicate2<T1, T2> {
    * @since 1.0.0
    */
   boolean test(final T1 t1, final T2 t2);
+
+  @Override
+  default Boolean apply(final T1 t1, final T2 t2) {
+    return this.test(t1, t2);
+  }
 
   /**
    * Gets a predicate that always returns {@code result}.
