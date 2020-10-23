@@ -23,6 +23,9 @@
  */
 package net.kyori.coffee.function;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.PolyNull;
+
 /**
  * A function that accepts zero arguments and produces a result.
  *
@@ -38,4 +41,15 @@ public interface Function0<R> {
    * @since 1.0.0
    */
   R apply();
+
+  /**
+   * Gets a function that always returns {@code result}.
+   *
+   * @param <R> the result type
+   * @return a function
+   * @since 1.0.0
+   */
+  static <R> @NonNull Function0<@PolyNull R> constantly(final @PolyNull R result) {
+    return () -> result;
+  }
 }

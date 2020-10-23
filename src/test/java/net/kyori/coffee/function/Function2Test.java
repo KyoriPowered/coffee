@@ -34,4 +34,10 @@ class Function2Test {
     final Function1<String, String> fn1 = fn2.apply("a");
     assertEquals("ab", fn1.apply("b"));
   }
+
+  @Test
+  void testConstantly() {
+    final Function2<Object, Object, String> fn3 = Function2.constantly("strawberries");
+    assertEquals("strawberries", fn3.apply("a", "b"));
+  }
 }

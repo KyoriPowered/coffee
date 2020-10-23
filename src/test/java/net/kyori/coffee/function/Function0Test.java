@@ -27,23 +27,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class Function1Test {
-  @Test
-  void testAp0() {
-    final Function1<String, String> fn1 = Function1.identity();
-    final Function0<String> fn0 = fn1.ap("kittens");
-    assertEquals("kittens", fn0.apply());
-  }
-
+class Function0Test {
   @Test
   void testConstantly() {
-    final Function1<Object, String> fn3 = Function1.constantly("strawberries");
-    assertEquals("strawberries", fn3.apply("a"));
-  }
-
-  @Test
-  void testMap() {
-    assertEquals("strawberries", Function1.map("strawberries", Function1.identity()));
-    assertEquals("strawberries!", Function1.map("strawberries", ab -> ab + "!"));
+    final Function0<String> fn3 = Function0.constantly("strawberries");
+    assertEquals("strawberries", fn3.apply());
   }
 }

@@ -24,6 +24,7 @@
 package net.kyori.coffee.function;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
  * A function that accepts two arguments and produces a result.
@@ -55,5 +56,18 @@ public interface Function2<T1, T2, R> extends Function1<T1, Function1<T2, R>> {
   @Override
   default @NonNull Function1<T2, R> apply(final T1 t1) {
     return t2 -> this.apply(t1, t2);
+  }
+
+  /**
+   * Gets a function that always returns {@code result}.
+   *
+   * @param <T1> the first argument type
+   * @param <T2> the second argument type
+   * @param <R> the result type
+   * @return a function
+   * @since 1.0.0
+   */
+  static <T1, T2, R> @NonNull Function2<T1, T2, @PolyNull R> constantly(final @PolyNull R result) {
+    return (t1, t2) -> result;
   }
 }

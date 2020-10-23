@@ -24,72 +24,32 @@
 package net.kyori.coffee.function;
 
 import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
- * A function that accepts one argument and produces a result.
+ * A predicate ({@code boolean}-valued function) of one argument.
  *
  * @param <T1> the first argument type
- * @param <R> the result type
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface Function1<T1, R> {
+public interface Predicate1<T1> {
   /**
-   * Applies this function to the given argument.
+   * Evaluates this predicate on the given argument.
    *
    * @param t1 the first argument
-   * @return the result
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
    * @since 1.0.0
    */
-  R apply(final T1 t1);
+  boolean test(final T1 t1);
 
   /**
-   * Partially applies this function to the given argument.
-   *
-   * @param t1 the first argument
-   * @return a 0-argument function
-   * @since 1.0.0
-   */
-  default @NonNull Function0<R> ap(final T1 t1) {
-    return () -> this.apply(t1);
-  }
-
-  /**
-   * Gets a function that always returns the input.
+   * Gets a predicate that always returns {@code result}.
    *
    * @param <T1> the first argument type
-   * @return an identity function
+   * @return a predicate that always returns {@code result}
    * @since 1.0.0
    */
   @SuppressWarnings("unchecked")
-  static <T1> @NonNull Function1<T1, T1> identity() {
-    return (Function1<T1, T1>) Functions.F1_IDENTITY;
-  }
-
-  /**
-   * Gets a function that always returns {@code result}.
-   *
-   * @param <T1> the first argument type
-   * @param <R> the result type
-   * @return a function
-   * @since 1.0.0
-   */
-  static <T1, R> @NonNull Function1<T1, @PolyNull R> constantly(final @PolyNull R result) {
-    return t1 -> result;
-  }
-
-  /**
-   * Maps {@code t1} using {@code function}, and then returns the result.
-   *
-   * @param t1 the first argument
-   * @param fn1 the function
-   * @param <T1> the first argument type
-   * @param <R> the result type
-   * @return the result of mapping {@code t1} using {@code function}
-   * @since 1.0.0
-   */
-  static <T1, R> R map(final T1 t1, final @NonNull Function1<T1, R> fn1) {
-    return fn1.apply(t1);
+  static <T1> @NonNull Predicate1<T1> constantly(final boolean result) {
+    return (Predicate1<T1>) (result ? Functions.P1_TRUE : Functions.P1_FALSE);
   }
 }

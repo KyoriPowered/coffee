@@ -23,27 +23,35 @@
  */
 package net.kyori.coffee.function;
 
-import org.junit.jupiter.api.Test;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+/**
+ * A predicate ({@code boolean}-valued function) of two arguments.
+ *
+ * @param <T1> the first argument type
+ * @param <T2> the second argument type
+ * @since 1.0.0
+ */
+public interface Predicate2<T1, T2> {
+  /**
+   * Evaluates this predicate on the given argument.
+   *
+   * @param t1 the first argument
+   * @param t2 the second argument
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @since 1.0.0
+   */
+  boolean test(final T1 t1, final T2 t2);
 
-class Function1Test {
-  @Test
-  void testAp0() {
-    final Function1<String, String> fn1 = Function1.identity();
-    final Function0<String> fn0 = fn1.ap("kittens");
-    assertEquals("kittens", fn0.apply());
-  }
-
-  @Test
-  void testConstantly() {
-    final Function1<Object, String> fn3 = Function1.constantly("strawberries");
-    assertEquals("strawberries", fn3.apply("a"));
-  }
-
-  @Test
-  void testMap() {
-    assertEquals("strawberries", Function1.map("strawberries", Function1.identity()));
-    assertEquals("strawberries!", Function1.map("strawberries", ab -> ab + "!"));
+  /**
+   * Gets a predicate that always returns {@code result}.
+   *
+   * @param <T1> the first argument type
+   * @param <T2> the second argument type
+   * @return a predicate that always returns {@code result}
+   * @since 1.0.0
+   */
+  static <T1, T2> @NonNull Predicate2<T1, T2> constantly(final boolean result) {
+    return (t1, t2) -> result;
   }
 }

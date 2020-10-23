@@ -25,25 +25,16 @@ package net.kyori.coffee.function;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class Function1Test {
-  @Test
-  void testAp0() {
-    final Function1<String, String> fn1 = Function1.identity();
-    final Function0<String> fn0 = fn1.ap("kittens");
-    assertEquals("kittens", fn0.apply());
-  }
-
+class Predicate2Test {
   @Test
   void testConstantly() {
-    final Function1<Object, String> fn3 = Function1.constantly("strawberries");
-    assertEquals("strawberries", fn3.apply("a"));
-  }
+    final Predicate2<Object, Object> alwaysFalse = Predicate2.constantly(false);
+    assertFalse(alwaysFalse.test(new Object(), new Object()));
 
-  @Test
-  void testMap() {
-    assertEquals("strawberries", Function1.map("strawberries", Function1.identity()));
-    assertEquals("strawberries!", Function1.map("strawberries", ab -> ab + "!"));
+    final Predicate2<Object, Object> alwaysTrue = Predicate2.constantly(true);
+    assertTrue(alwaysTrue.test(new Object(), new Object()));
   }
 }
