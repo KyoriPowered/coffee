@@ -23,44 +23,36 @@
  */
 package net.kyori.coffee.function;
 
-import org.checkerframework.checker.nullness.qual.NonNull;
-import org.checkerframework.checker.nullness.qual.PolyNull;
-
-/**
- * A function that accepts zero arguments and produces a result.
- *
- * @param <R> the result type
- * @since 1.0.0
- */
-@FunctionalInterface
-public interface Function0<R> {
-  /**
-   * Applies this function.
-   *
-   * @return the result
-   * @since 1.0.0
-   */
-  R apply();
-
-  /**
-   * Gets a function which caches the result retrieved during the first call to {@link #apply()}
-   * and returns the cached result on subsequent calls to {@link #apply()}.
-   *
-   * @return a memoized function
-   * @since 1.0.0
-   */
-  default @NonNull Function0<R> memoize() {
-    return Memoize.fn0(this);
+final class Memoize {
+  private Memoize() {
   }
 
-  /**
-   * Gets a function that always returns {@code result}.
-   *
-   * @param <R> the result type
-   * @return a function
-   * @since 1.0.0
-   */
-  static <R> @NonNull Function0<@PolyNull R> constantly(final @PolyNull R result) {
-    return () -> result;
+  static <R> Function0<R> fn0(final Function0<R> fn0) {
+    return new F0<>(fn0);
+  }
+
+  static class F0<R> implements Function0<R> {
+    private final Function0<R> fn0;
+    private transient volatile boolean memoized;
+    private transient R result;
+
+    F0(final Function0<R> fn0) {
+      this.fn0 = fn0;
+    }
+
+    @Override
+    public R apply() {
+      if(!this.memoized) {
+        synchronized(this) {
+          if(!this.memoized) {
+            final R result = this.fn0.apply();
+            this.result = result;
+            this.memoized = true;
+            return result;
+          }
+        }
+      }
+      return this.result;
+    }
   }
 }

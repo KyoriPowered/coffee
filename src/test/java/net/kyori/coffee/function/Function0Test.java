@@ -23,11 +23,21 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class Function0Test {
+  @Test
+  void testMemoize() {
+    Function0<UUID> fn3 = UUID::randomUUID;
+    assertNotEquals(fn3.apply(), fn3.apply());
+    fn3 = fn3.memoize();
+    assertEquals(fn3.apply(), fn3.apply());
+  }
+
   @Test
   void testConstantly() {
     final Function0<String> fn3 = Function0.constantly("strawberries");
