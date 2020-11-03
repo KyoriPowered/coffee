@@ -50,7 +50,7 @@ public interface Function0<R> {
    * @since 1.0.0
    */
   default @NonNull Function0<R> memoize() {
-    return Memoize.fn0(this);
+    return Functions.memoizeF0(this);
   }
 
   /**

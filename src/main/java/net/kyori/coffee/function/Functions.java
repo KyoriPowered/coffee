@@ -30,4 +30,34 @@ final class Functions {
 
   private Functions() {
   }
+
+  static <R> Function0<R> memoizeF0(final Function0<R> fn0) {
+    if(fn0  instanceof MemoizeF0<?>) return fn0;
+    return new MemoizeF0<>(fn0);
+  }
+
+  private static class MemoizeF0<R> implements Function0<R> {
+    private final Function0<R> fn0;
+    private volatile boolean memoized;
+    private R result;
+
+    MemoizeF0(final Function0<R> fn0) {
+      this.fn0 = fn0;
+    }
+
+    @Override
+    public R apply() {
+      if(!this.memoized) {
+        synchronized(this) {
+          if(!this.memoized) {
+            final R result = this.fn0.apply();
+            this.result = result;
+            this.memoized = true;
+            return result;
+          }
+        }
+      }
+      return this.result;
+    }
+  }
 }
