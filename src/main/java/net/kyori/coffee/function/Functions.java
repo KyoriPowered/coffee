@@ -24,6 +24,8 @@
 package net.kyori.coffee.function;
 
 final class Functions {
+  static final Consumer1<Object> C1_CONSUME = t1 -> {
+  };
   static final Function1<Object, Object> F1_IDENTITY = t1 -> t1;
   static final Predicate1<Object> P1_FALSE = t1 -> false;
   static final Predicate1<Object> P1_TRUE = t1 -> true;
