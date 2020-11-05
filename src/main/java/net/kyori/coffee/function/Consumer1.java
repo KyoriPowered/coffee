@@ -23,6 +23,7 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.function.Consumer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.checkerframework.checker.nullness.qual.PolyNull;
@@ -67,5 +68,17 @@ public interface Consumer1<T1> {
   @SuppressWarnings("unchecked")
   static <T1> @NonNull Consumer1<T1> consume() {
     return (Consumer1<T1>) Functions.C1_CONSUME;
+  }
+
+  /**
+   * Converts a {@link Consumer1} into a {@link Consumer}.
+   *
+   * @param c1 the consumer
+   * @param <T1> the first argument type
+   * @return a java consumer
+   * @since 1.0.0
+   */
+  static <T1> @NonNull Consumer<T1> java(final @NonNull Consumer1<T1> c1) {
+    return c1::accept;
   }
 }

@@ -23,6 +23,7 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.function.BiFunction;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
@@ -69,5 +70,19 @@ public interface Function2<T1, T2, R> extends Function1<T1, Function1<T2, R>> {
    */
   static <T1, T2, R> @NonNull Function2<T1, T2, @PolyNull R> constantly(final @PolyNull R result) {
     return (t1, t2) -> result;
+  }
+
+  /**
+   * Converts a {@link Function2} into a {@link BiFunction}.
+   *
+   * @param fn1 the function
+   * @param <T1> the first argument type
+   * @param <T2> the second argument type
+   * @param <R> the result type
+   * @return a java function
+   * @since 1.0.0
+   */
+  static <T1, T2, R> @NonNull BiFunction<T1, T2, R> java(final @NonNull Function2<T1, T2, R> fn1) {
+    return fn1::apply;
   }
 }

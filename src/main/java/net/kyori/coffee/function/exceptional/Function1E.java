@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee.function.exceptional;
 
 /**
  * A function that accepts one argument and produces a result, potentially throwing an exception.

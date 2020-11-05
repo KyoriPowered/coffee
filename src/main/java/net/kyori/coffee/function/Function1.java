@@ -23,6 +23,7 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.function.Function;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
@@ -91,5 +92,18 @@ public interface Function1<T1, R> {
    */
   static <T1, R> R map(final T1 t1, final @NonNull Function1<T1, R> fn1) {
     return fn1.apply(t1);
+  }
+
+  /**
+   * Converts a {@link Function1} into a {@link Function}.
+   *
+   * @param fn1 the function
+   * @param <T1> the first argument type
+   * @param <R> the result type
+   * @return a java function
+   * @since 1.0.0
+   */
+  static <T1, R> @NonNull Function<T1, R> java(final @NonNull Function1<T1, R> fn1) {
+    return fn1::apply;
   }
 }

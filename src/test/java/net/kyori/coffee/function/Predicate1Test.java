@@ -23,8 +23,11 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -36,5 +39,14 @@ class Predicate1Test {
 
     final Predicate1<Object> alwaysTrue = Predicate1.constantly(true);
     assertTrue(alwaysTrue.test(new Object()));
+  }
+
+  @Test
+  void testJava() {
+    assertThat(
+      Stream.of("a", "b", "c")
+        .filter(Predicate1.java(Predicate1.constantly(true)))
+        .collect(Collectors.toList())
+    ).containsExactly("a", "b", "c").inOrder();
   }
 }

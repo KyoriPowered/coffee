@@ -21,23 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee.function.exceptional;
 
 /**
- * A function that accepts zero arguments and produces a result, potentially throwing an exception.
+ * A function that accepts two arguments and produces a result, potentially throwing an exception.
  *
- * @param <T> the result type
+ * @param <T1> the first argument type
+ * @param <T2> the second argument type
+ * @param <T3> the third argument type
+ * @param <R> the result type
  * @param <E> the potential exception type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface Function0E<T, E extends Throwable> {
+public interface Function3E<T1, T2, T3, R, E extends Throwable> {
   /**
-   * Applies this function.
+   * Applies this function to the given arguments.
    *
-   * @return a result
+   * @param t1 the first argument
+   * @param t2 the second argument
+   * @param t3 the third argument
+   * @return the result
    * @throws E potential exception
    * @since 1.0.0
    */
-  T apply() throws E;
+  R apply(final T1 t1, final T2 t2, final T3 t3) throws E;
 }

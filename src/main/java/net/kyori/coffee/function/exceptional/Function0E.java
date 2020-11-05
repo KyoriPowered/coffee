@@ -21,23 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee.function.exceptional;
 
 /**
- * A predicate ({@code boolean}-valued function) of one argument, potentially throwing an exception.
+ * A function that accepts zero arguments and produces a result, potentially throwing an exception.
  *
- * @param <T1> the first argument type
+ * @param <T> the result type
  * @param <E> the potential exception type
  * @since 1.0.0
  */
-public interface Predicate1E<T1, E extends Throwable> {
+@FunctionalInterface
+public interface Function0E<T, E extends Throwable> {
   /**
-   * Evaluates this predicate on the given argument.
+   * Applies this function.
    *
-   * @param t1 the first input argument
-   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @return a result
    * @throws E potential exception
    * @since 1.0.0
    */
-  boolean test(final T1 t1) throws E;
+  T apply() throws E;
 }

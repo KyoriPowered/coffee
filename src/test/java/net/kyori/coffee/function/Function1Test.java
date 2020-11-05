@@ -23,8 +23,11 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class Function1Test {
@@ -45,5 +48,14 @@ class Function1Test {
   void testMap() {
     assertEquals("strawberries", Function1.map("strawberries", Function1.identity()));
     assertEquals("strawberries!", Function1.map("strawberries", ab -> ab + "!"));
+  }
+
+  @Test
+  void testJava() {
+    assertThat(
+      Stream.of("a", "b", "c")
+        .map(Function1.java(Function1.identity()))
+        .collect(Collectors.toList())
+    ).containsExactly("a", "b", "c").inOrder();
   }
 }

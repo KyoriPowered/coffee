@@ -23,6 +23,7 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.function.BiPredicate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
@@ -58,5 +59,18 @@ public interface Predicate2<T1, T2> extends Function2<T1, T2, Boolean> {
    */
   static <T1, T2> @NonNull Predicate2<T1, T2> constantly(final boolean result) {
     return (t1, t2) -> result;
+  }
+
+  /**
+   * Converts a {@link Predicate2} into a {@link BiPredicate}.
+   *
+   * @param fn1 the predicate
+   * @param <T1> the first argument type
+   * @param <T2> the second argument type
+   * @return a java predicate
+   * @since 1.0.0
+   */
+  static <T1, T2> @NonNull BiPredicate<T1, T2> java(final @NonNull Predicate2<T1, T2> fn1) {
+    return fn1::apply;
   }
 }

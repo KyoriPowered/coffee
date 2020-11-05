@@ -28,6 +28,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 /**
  * Things for working with {@link Comparable}s.
  *
+ * @see Ordered
  * @since 1.0.0
  */
 public final class Comparables {

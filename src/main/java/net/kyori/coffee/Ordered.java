@@ -21,53 +21,59 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee;
 
-import java.util.function.Predicate;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * A predicate ({@code boolean}-valued function) of one argument.
+ * Something that is ordered.
  *
- * @param <T1> the first argument type
+ * @param <T> the type
+ * @see Comparables
  * @since 1.0.0
  */
-public interface Predicate1<T1> extends Function1<T1, Boolean> {
+public interface Ordered<T> extends Comparable<T> {
   /**
-   * Evaluates this predicate on the given argument.
+   * Checks if {@code this} is less than {@code that}.
    *
-   * @param t1 the first argument
-   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @param that the other object
+   * @return {@code true} if {@code this} is less then {@code that}, {@code false} otherwise
    * @since 1.0.0
    */
-  boolean test(final T1 t1);
-
-  @Override
-  default Boolean apply(final T1 t1) {
-    return this.test(t1);
+  default boolean lt(final @NonNull T that) {
+    return this.compareTo(that) < 0;
   }
 
   /**
-   * Gets a predicate that always returns {@code result}.
+   * Checks if {@code this} is less than or equal to {@code that}.
    *
-   * @param <T1> the first argument type
-   * @return a predicate that always returns {@code result}
+   * @param that the other object
+   * @return {@code true} if {@code this} is less than or equal to {@code that}, {@code false} otherwise
    * @since 1.0.0
    */
-  @SuppressWarnings("unchecked")
-  static <T1> @NonNull Predicate1<T1> constantly(final boolean result) {
-    return (Predicate1<T1>) (result ? Functions.P1_TRUE : Functions.P1_FALSE);
+  default boolean lte(final @NonNull T that) {
+    return this.compareTo(that) <= 0;
   }
 
   /**
-   * Converts a {@link Predicate1} into a {@link Predicate}.
+   * Checks if {@code this} is greater than {@code that}.
    *
-   * @param p1 the predicate
-   * @param <T1> the first argument type
-   * @return a java predicate
+   * @param that the other object
+   * @return {@code true} if {@code this} is greater than {@code that}, {@code false} otherwise
    * @since 1.0.0
    */
-  static <T1> @NonNull Predicate<T1> java(final @NonNull Predicate1<T1> p1) {
-    return p1::apply;
+  default boolean gt(final @NonNull T that) {
+    return this.compareTo(that) > 0;
+  }
+
+  /**
+   * Checks if {@code this} is greater than or equal to {@code that}.
+   *
+   * @param that the other object
+   * @return {@code true} if {@code this} is greater than or equal to {@code that}, {@code false} otherwise
+   * @since 1.0.0
+   */
+  default boolean gte(final @NonNull T that) {
+    return this.compareTo(that) >= 0;
   }
 }

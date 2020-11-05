@@ -23,6 +23,9 @@
  */
 package net.kyori.coffee.function;
 
+import java.util.function.BiConsumer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+
 /**
  * An operation that accepts two input arguments and returns no result.
  *
@@ -40,4 +43,17 @@ public interface Consumer2<T1, T2> {
    * @since 1.0.0
    */
   void accept(final T1 t1, final T2 t2);
+
+  /**
+   * Converts a {@link Consumer2} into a {@link BiConsumer}.
+   *
+   * @param c2 the consumer
+   * @param <T1> the first argument type
+   * @param <T2> the second argument type
+   * @return a java consumer
+   * @since 1.0.0
+   */
+  static <T1, T2> @NonNull BiConsumer<T1, T2> java(final @NonNull Consumer2<T1, T2> c2) {
+    return c2::accept;
+  }
 }

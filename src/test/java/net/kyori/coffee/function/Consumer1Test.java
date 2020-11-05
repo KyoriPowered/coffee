@@ -24,8 +24,11 @@
 package net.kyori.coffee.function;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Consumer1Test {
@@ -33,5 +36,13 @@ class Consumer1Test {
   void testTap() {
     final AtomicBoolean value = Consumer1.tap(new AtomicBoolean(false), ab -> ab.set(true));
     assertTrue(value.get());
+  }
+
+  @SuppressWarnings("ResultOfMethodCallIgnored")
+  @Test
+  void testConsume() {
+    final Stream<String> stream = Stream.of("a", "b", "c");
+    stream.forEach(Consumer1.java(Consumer1.consume()));
+    assertThrows(IllegalStateException.class, () -> stream.collect(Collectors.toList()));
   }
 }

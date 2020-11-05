@@ -21,38 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee.function.exceptional;
 
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
-class Function0Test {
-  @Test
-  void testMemoize() {
-    Function0<UUID> fn3 = UUID::randomUUID;
-    assertNotEquals(fn3.apply(), fn3.apply());
-    fn3 = fn3.memoize();
-    assertEquals(fn3.apply(), fn3.apply());
-  }
-
-  @Test
-  void testConstantly() {
-    final Function0<String> fn3 = Function0.constantly("strawberries");
-    assertEquals("strawberries", fn3.apply());
-  }
-
-  @Test
-  void testJava() {
-    assertThat(
-      Stream.of("a", "b", "c")
-        .map(Function1.java(Function1.identity()))
-        .collect(Collectors.toList())
-    ).containsExactly("a", "b", "c").inOrder();
-  }
+/**
+ * A predicate ({@code boolean}-valued function) of two arguments, potentially throwing an exception.
+ *
+ * @param <T1> the first argument type
+ * @param <T2> the second argument type
+ * @param <E> the potential exception type
+ * @since 1.0.0
+ */
+public interface Predicate2E<T1, T2, E extends Throwable> {
+  /**
+   * Evaluates this predicate on the given argument.
+   *
+   * @param t1 the first argument
+   * @param t2 the second argument
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @throws E potential exception
+   * @since 1.0.0
+   */
+  boolean test(final T1 t1, final T2 t2) throws E;
 }

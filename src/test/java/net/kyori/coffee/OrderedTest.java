@@ -21,38 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee;
 
-import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class Function0Test {
+class OrderedTest {
   @Test
-  void testMemoize() {
-    Function0<UUID> fn3 = UUID::randomUUID;
-    assertNotEquals(fn3.apply(), fn3.apply());
-    fn3 = fn3.memoize();
-    assertEquals(fn3.apply(), fn3.apply());
+  void testLT() {
+    assertTrue(Thing.A.lt(Thing.B));
+    assertFalse(Thing.A.lt(Thing.A));
   }
 
   @Test
-  void testConstantly() {
-    final Function0<String> fn3 = Function0.constantly("strawberries");
-    assertEquals("strawberries", fn3.apply());
+  void testLTE() {
+    assertTrue(Thing.A.lte(Thing.B));
+    assertTrue(Thing.A.lte(Thing.A));
   }
 
   @Test
-  void testJava() {
-    assertThat(
-      Stream.of("a", "b", "c")
-        .map(Function1.java(Function1.identity()))
-        .collect(Collectors.toList())
-    ).containsExactly("a", "b", "c").inOrder();
+  void testGT() {
+    assertTrue(Thing.B.gt(Thing.A));
+    assertFalse(Thing.B.gt(Thing.B));
+  }
+
+  @Test
+  void testGTE() {
+    assertTrue(Thing.B.gte(Thing.A));
+    assertTrue(Thing.B.gte(Thing.B));
+  }
+
+  enum Thing implements Ordered<Thing> {
+    A,
+    B;
   }
 }

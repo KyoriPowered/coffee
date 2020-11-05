@@ -21,27 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.function;
+package net.kyori.coffee;
+
+import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
- * An operation that accepts three input arguments and returns no result, potentially throwing an exception.
+ * The unit type, which has only one value.
  *
- * @param <T1> the first argument type
- * @param <T2> the second argument type
- * @param <T3> the third argument type
- * @param <E> the potential exception type
  * @since 1.0.0
  */
-@FunctionalInterface
-public interface Consumer3E<T1, T2, T3, E extends Throwable> {
+public enum Unit {
   /**
-   * Performs this operation on the given arguments.
+   * The unit.
    *
-   * @param t1 the first argument
-   * @param t2 the second argument
-   * @param t3 the third argument
-   * @throws E potential exception
    * @since 1.0.0
    */
-  void accept(final T1 t1, final T2 t2, final T3 t3) throws E;
+  INSTANCE;
+
+  /**
+   * Gets the unit instance.
+   *
+   * @return the unit
+   * @since 1.0.0
+   */
+  public static @NonNull Unit unit() {
+    return INSTANCE;
+  }
+
+  @Override
+  public String toString() {
+    return "Unit";
+  }
 }

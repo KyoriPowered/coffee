@@ -34,7 +34,7 @@ final class Functions {
   }
 
   static <R> Function0<R> memoizeF0(final Function0<R> fn0) {
-    if(fn0  instanceof MemoizeF0<?>) return fn0;
+    if(fn0 instanceof MemoizeF0<?>) return fn0;
     return new MemoizeF0<>(fn0);
   }
 
