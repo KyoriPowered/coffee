@@ -1,1 +1,4 @@
-rootProject.name = 'coffee'
+rootProject.name = "coffee-parent"
+
+include "coffee-functional"
+include "coffee"

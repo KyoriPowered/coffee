@@ -1,6 +1,7 @@
 /.gradle/
 /.idea/
-/build/
+/coffee/build/
+/coffee-functional/build/
 /out/
 /run/
 /*.iml
