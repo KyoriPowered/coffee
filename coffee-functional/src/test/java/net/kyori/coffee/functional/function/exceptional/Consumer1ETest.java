@@ -24,7 +24,6 @@
 package net.kyori.coffee.functional.function.exceptional;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import net.kyori.coffee.functional.function.Consumer1;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
