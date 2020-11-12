@@ -23,6 +23,9 @@
  */
 package net.kyori.coffee.functional.function.exceptional;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
+
 /**
  * An operation that accepts a single input argument and returns no result, potentially throwing an exception.
  *
@@ -40,4 +43,20 @@ public interface Consumer1E<T1, E extends Throwable> {
    * @since 1.0.0
    */
   void accept(final T1 t1) throws E;
+
+  /**
+   * Provides {@code t1} to {@code consumer}, and then returns {@code t1}, potentially throwing an exception.
+   *
+   * @param t1 the first argument
+   * @param c1 the consumer
+   * @param <T1> the first argument type
+   * @param <E> the potential exception type
+   * @return the first argument
+   * @throws E potential exception
+   * @since 1.0.0
+   */
+  static <T1, E extends Throwable> @PolyNull T1 tap(final @PolyNull T1 t1, final @Nullable Consumer1E<T1, E> c1) throws E {
+    if(c1 != null) c1.accept(t1);
+    return t1;
+  }
 }

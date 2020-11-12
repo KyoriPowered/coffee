@@ -45,6 +45,18 @@ public interface Consumer1<T1> {
   void accept(final T1 t1);
 
   /**
+   * Gets a consumer that always does nothing.
+   *
+   * @param <T1> the first argument type
+   * @return a consumer
+   * @since 1.0.0
+   */
+  @SuppressWarnings("unchecked")
+  static <T1> @NonNull Consumer1<T1> consume() {
+    return (Consumer1<T1>) Functions.C1_CONSUME;
+  }
+
+  /**
    * Provides {@code t1} to {@code consumer}, and then returns {@code t1}.
    *
    * @param t1 the first argument
@@ -56,18 +68,6 @@ public interface Consumer1<T1> {
   static <T1> @PolyNull T1 tap(final @PolyNull T1 t1, final @Nullable Consumer1<T1> c1) {
     if(c1 != null) c1.accept(t1);
     return t1;
-  }
-
-  /**
-   * Gets a consumer that always does nothing.
-   *
-   * @param <T1> the first argument type
-   * @return a consumer
-   * @since 1.0.0
-   */
-  @SuppressWarnings("unchecked")
-  static <T1> @NonNull Consumer1<T1> consume() {
-    return (Consumer1<T1>) Functions.C1_CONSUME;
   }
 
   /**

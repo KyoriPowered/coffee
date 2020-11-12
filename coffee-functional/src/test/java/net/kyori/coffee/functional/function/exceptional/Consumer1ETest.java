@@ -21,50 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.function.exceptional;
 
-final class Functions {
-  static final Consumer1<Object> C1_CONSUME = t1 -> {
-  };
-  static final Function1<Object, Object> F1_IDENTITY = t1 -> t1;
-  static final Predicate1<Object> P1_FALSE = t1 -> false;
-  static final Predicate1<Object> P1_TRUE = t1 -> true;
+import java.util.concurrent.atomic.AtomicBoolean;
+import net.kyori.coffee.functional.function.Consumer1;
+import org.junit.jupiter.api.Test;
 
-  private Functions() {
-  }
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-  static <R> Function0<R> memoizeF0(final Function0<R> fn0) {
-    if(fn0 instanceof MemoizeF0<?>) return fn0;
-    return new MemoizeF0<>(fn0);
-  }
-
-  private static final class MemoizeF0<R> implements Function0<R> {
-    private final Function0<R> fn0;
-    private volatile boolean memoized;
-    private R result;
-
-    MemoizeF0(final Function0<R> fn0) {
-      this.fn0 = fn0;
-    }
-
-    @Override
-    public R apply() {
-      if(!this.memoized) {
-        synchronized(this) {
-          if(!this.memoized) {
-            final R result = this.fn0.apply();
-            this.result = result;
-            this.memoized = true;
-            return result;
-          }
-        }
-      }
-      return this.result;
-    }
-
-    @Override
-    public String toString() {
-      return this.fn0.toString() + "[memoized]";
-    }
+class Consumer1ETest {
+  @Test
+  void testTap() {
+    final AtomicBoolean value = Consumer1E.tap(new AtomicBoolean(false), ab -> ab.set(true));
+    assertTrue(value.get());
   }
 }
