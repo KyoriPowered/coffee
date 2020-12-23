@@ -1,6 +1,6 @@
 buildscript {
   ext {
-    indraVersion = "1.0.2"
+    indraVersion = "1.2.1"
   }
 }
 
@@ -36,13 +36,6 @@ subprojects {
           }
         }
       }
-    }
-  }
-
-  // TODO: indra?
-  tasks.withType(Sign) {
-    onlyIf {
-      (project.hasProperty("forceSign") || gradle.taskGraph.hasTask(":publish")) && !project.version.endsWith("-SNAPSHOT")
     }
   }
 
