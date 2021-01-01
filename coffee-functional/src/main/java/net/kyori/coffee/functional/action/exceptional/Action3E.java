@@ -21,25 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.action.exceptional;
 
 /**
- * An operation that accepts three input arguments and returns no result.
+ * An action that accepts three input arguments and returns no result, potentially throwing an exception.
  *
- * @param <T1> the first argument type
- * @param <T2> the second argument type
- * @param <T3> the third argument type
+ * @param <T1> the 1st argument type
+ * @param <T2> the 2nd argument type
+ * @param <T3> the 3rd argument type
+ * @param <E> the potential exception type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface Consumer3<T1, T2, T3> {
+public interface Action3E<T1, T2, T3, E extends Throwable> {
   /**
-   * Performs this operation on the given arguments.
+   * Performs this action on the given arguments.
    *
-   * @param t1 the first argument
-   * @param t2 the second argument
-   * @param t3 the third argument
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
+   * @throws E potential exception
    * @since 1.0.0
    */
-  void accept(final T1 t1, final T2 t2, final T3 t3);
+  void accept(final T1 t1, final T2 t2, final T3 t3) throws E;
 }

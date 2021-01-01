@@ -21,32 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.action;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import org.junit.jupiter.api.Test;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-class Predicate1Test {
-  @Test
-  void testConstantly() {
-    final Predicate1<Object> alwaysFalse = Predicate1.constantly(false);
-    assertFalse(alwaysFalse.test(new Object()));
-
-    final Predicate1<Object> alwaysTrue = Predicate1.constantly(true);
-    assertTrue(alwaysTrue.test(new Object()));
-  }
-
-  @Test
-  void testJava() {
-    assertThat(
-      Stream.of("a", "b", "c")
-        .filter(Predicate1.java(Predicate1.constantly(true)))
-        .collect(Collectors.toList())
-    ).containsExactly("a", "b", "c").inOrder();
-  }
+/**
+ * An action that accepts two input arguments and returns no result.
+ *
+ * @param <T1> the 1st argument type
+ * @param <T2> the second argument type
+ * @since 1.0.0
+ */
+@FunctionalInterface
+public interface Action2<T1, T2> {
+  /**
+   * Performs this action on the given arguments.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @since 1.0.0
+   */
+  void accept(final T1 t1, final T2 t2);
 }

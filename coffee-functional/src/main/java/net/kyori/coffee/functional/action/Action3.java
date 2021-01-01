@@ -21,42 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function.exceptional;
-
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.checkerframework.checker.nullness.qual.PolyNull;
+package net.kyori.coffee.functional.action;
 
 /**
- * An operation that accepts a single input argument and returns no result, potentially throwing an exception.
+ * An action that accepts three input arguments and returns no result.
  *
- * @param <T1> the first argument type
- * @param <E> the potential exception type
+ * @param <T1> the 1st argument type
+ * @param <T2> the 2nd argument type
+ * @param <T3> the 3rd argument type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface Consumer1E<T1, E extends Throwable> {
+public interface Action3<T1, T2, T3> {
   /**
-   * Performs this operation on the given argument.
+   * Performs this action on the given arguments.
    *
-   * @param t1 the first argument
-   * @throws E potential exception
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
    * @since 1.0.0
    */
-  void accept(final T1 t1) throws E;
-
-  /**
-   * Provides {@code t1} to {@code consumer}, and then returns {@code t1}, potentially throwing an exception.
-   *
-   * @param t1 the first argument
-   * @param c1 the consumer
-   * @param <T1> the first argument type
-   * @param <E> the potential exception type
-   * @return the first argument
-   * @throws E potential exception
-   * @since 1.0.0
-   */
-  static <T1, E extends Throwable> @PolyNull T1 tap(final @PolyNull T1 t1, final @Nullable Consumer1E<T1, E> c1) throws E {
-    if(c1 != null) c1.accept(t1);
-    return t1;
-  }
+  void accept(final T1 t1, final T2 t2, final T3 t3);
 }

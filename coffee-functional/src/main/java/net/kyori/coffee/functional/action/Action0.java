@@ -21,46 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.action;
 
-final class Functions {
-  static final Function1<Object, Object> F1_IDENTITY = t1 -> t1;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-  private Functions() {
-  }
+/**
+ * An action that accepts zero input arguments and returns no result.
+ *
+ * @since 1.0.0
+ */
+@FunctionalInterface
+public interface Action0 {
+  /**
+   * Performs this action.
+   *
+   * @since 1.0.0
+   */
+  void accept();
 
-  static <R> Function0<R> memoizeF0(final Function0<R> fn0) {
-    if(fn0 instanceof MemoizeF0<?>) return fn0;
-    return new MemoizeF0<>(fn0);
-  }
-
-  private static final class MemoizeF0<R> implements Function0<R> {
-    private final Function0<R> fn0;
-    private volatile boolean memoized;
-    private R result;
-
-    MemoizeF0(final Function0<R> fn0) {
-      this.fn0 = fn0;
-    }
-
-    @Override
-    public R apply() {
-      if(!this.memoized) {
-        synchronized(this) {
-          if(!this.memoized) {
-            final R result = this.fn0.apply();
-            this.result = result;
-            this.memoized = true;
-            return result;
-          }
-        }
-      }
-      return this.result;
-    }
-
-    @Override
-    public String toString() {
-      return this.fn0.toString() + "[memoized]";
-    }
+  /**
+   * Gets an action that always does nothing.
+   *
+   * @return an action
+   * @since 1.0.0
+   */
+  static @NonNull Action0 noop() {
+    return Actions.A0_NOOP;
   }
 }

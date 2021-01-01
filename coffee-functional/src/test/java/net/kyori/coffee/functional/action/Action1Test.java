@@ -21,23 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function.exceptional;
+package net.kyori.coffee.functional.action;
 
-/**
- * A predicate ({@code boolean}-valued function) of one argument, potentially throwing an exception.
- *
- * @param <T1> the first argument type
- * @param <E> the potential exception type
- * @since 1.0.0
- */
-public interface Predicate1E<T1, E extends Throwable> {
-  /**
-   * Evaluates this predicate on the given argument.
-   *
-   * @param t1 the first input argument
-   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
-   * @throws E potential exception
-   * @since 1.0.0
-   */
-  boolean test(final T1 t1) throws E;
+import java.util.concurrent.atomic.AtomicBoolean;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class Action1Test {
+  @Test
+  void testTap() {
+    final AtomicBoolean value = Action1.tap(new AtomicBoolean(false), ab -> ab.set(true));
+    assertTrue(value.get());
+  }
 }

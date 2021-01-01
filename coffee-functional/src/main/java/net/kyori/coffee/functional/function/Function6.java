@@ -27,26 +27,32 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
- * A function that accepts three arguments and produces a result.
+ * A function that accepts six arguments and produces a result.
  *
  * @param <T1> the 1st argument type
  * @param <T2> the 2nd argument type
  * @param <T3> the 3rd argument type
+ * @param <T4> the 4th argument type
+ * @param <T5> the 5th argument type
+ * @param <T6> the 6th argument type
  * @param <R> the result type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface Function3<T1, T2, T3, R> extends Function2<T1, T2, Function1<T3, R>> {
+public interface Function6<T1, T2, T3, T4, T5, T6, R> extends Function5<T1, T2, T3, T4, T5, Function1<T6, R>> {
   /**
    * Applies this function to the given arguments.
    *
    * @param t1 the 1st argument
    * @param t2 the 2nd argument
    * @param t3 the 3rd argument
+   * @param t4 the 4th argument
+   * @param t5 the 5th argument
+   * @param t6 the 6th argument
    * @return the result
    * @since 1.0.0
    */
-  R apply(final T1 t1, final T2 t2, final T3 t3);
+  R apply(final T1 t1, final T2 t2, final T3 t3, final T4 t4, final T5 t5, final T6 t6);
 
   /**
    * Partially applies this function to the given argument.
@@ -56,12 +62,12 @@ public interface Function3<T1, T2, T3, R> extends Function2<T1, T2, Function1<T3
    * @since 1.0.0
    */
   @Override
-  default @NonNull Function2<T2, T3, R> apply(final T1 t1) {
-    return (t2, t3) -> this.apply(t1, t2, t3);
+  default @NonNull Function5<T2, T3, T4, T5, T6, R> apply(final T1 t1) {
+    return (t2, t3, t4, t5, t6) -> this.apply(t1, t2, t3, t4, t5, t6);
   }
 
   /**
-   * Partially applies this function to the given arguments.
+   * Partially applies this function to the given argument.
    *
    * @param t1 the 1st argument
    * @param t2 the 2nd argument
@@ -69,8 +75,53 @@ public interface Function3<T1, T2, T3, R> extends Function2<T1, T2, Function1<T3
    * @since 1.0.0
    */
   @Override
-  default @NonNull Function1<T3, R> apply(final T1 t1, final T2 t2) {
-    return t3 -> this.apply(t1, t2, t3);
+  default @NonNull Function4<T3, T4, T5, T6, R> apply(final T1 t1, final T2 t2) {
+    return (t3, t4, t5, t6) -> this.apply(t1, t2, t3, t4, t5, t6);
+  }
+
+  /**
+   * Partially applies this function to the given argument.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
+   * @return the result
+   * @since 1.0.0
+   */
+  @Override
+  default @NonNull Function3<T4, T5, T6, R> apply(final T1 t1, final T2 t2, final T3 t3) {
+    return (t4, t5, t6) -> this.apply(t1, t2, t3, t4, t5, t6);
+  }
+
+  /**
+   * Partially applies this function to the given arguments.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
+   * @param t4 the 4th argument
+   * @return the result
+   * @since 1.0.0
+   */
+  @Override
+  default @NonNull Function2<T5, T6, R> apply(final T1 t1, final T2 t2, final T3 t3, final T4 t4) {
+    return (t5, t6) -> this.apply(t1, t2, t3, t4, t5, t6);
+  }
+
+  /**
+   * Partially applies this function to the given arguments.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
+   * @param t4 the 4th argument
+   * @param t5 the 5th argument
+   * @return the result
+   * @since 1.0.0
+   */
+  @Override
+  default @NonNull Function1<T6, R> apply(final T1 t1, final T2 t2, final T3 t3, final T4 t4, final T5 t5) {
+    return t6 -> this.apply(t1, t2, t3, t4, t5, t6);
   }
 
   /**
@@ -79,11 +130,14 @@ public interface Function3<T1, T2, T3, R> extends Function2<T1, T2, Function1<T3
    * @param <T1> the 1st argument type
    * @param <T2> the 2nd argument type
    * @param <T3> the 3rd argument type
+   * @param <T4> the 4th argument type
+   * @param <T5> the 5th argument type
+   * @param <T6> the 6th argument type
    * @param <R> the result type
    * @return a function
    * @since 1.0.0
    */
-  static <T1, T2, T3, R> @NonNull Function3<T1, T2, T3, @PolyNull R> constantly(final @PolyNull R result) {
-    return (t1, t2, t3) -> result;
+  static <T1, T2, T3, T4, T5, T6, R> @NonNull Function6<T1, T2, T3, T4, T5, T6, @PolyNull R> constantly(final @PolyNull R result) {
+    return (t1, t2, t3, t4, t5, t6) -> result;
   }
 }

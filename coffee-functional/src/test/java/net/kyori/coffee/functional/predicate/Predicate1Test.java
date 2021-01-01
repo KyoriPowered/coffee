@@ -21,28 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.predicate;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class Consumer1Test {
+class Predicate1Test {
   @Test
-  void testTap() {
-    final AtomicBoolean value = Consumer1.tap(new AtomicBoolean(false), ab -> ab.set(true));
-    assertTrue(value.get());
-  }
+  void testConstantly() {
+    final Predicate1<Object> alwaysFalse = Predicate1.constantly(false);
+    assertFalse(alwaysFalse.test(new Object()));
 
-  @SuppressWarnings("ResultOfMethodCallIgnored")
-  @Test
-  void testConsume() {
-    final Stream<String> stream = Stream.of("a", "b", "c");
-    stream.forEach(Consumer1.java(Consumer1.consume()));
-    assertThrows(IllegalStateException.class, () -> stream.collect(Collectors.toList()));
+    final Predicate1<Object> alwaysTrue = Predicate1.constantly(true);
+    assertTrue(alwaysTrue.test(new Object()));
   }
 }

@@ -21,53 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.predicate.exceptional;
 
-import java.util.function.Predicate;
-import org.checkerframework.checker.nullness.qual.NonNull;
+import net.kyori.coffee.functional.function.exceptional.Function1E;
 
 /**
- * A predicate ({@code boolean}-valued function) of one argument.
+ * A predicate ({@code boolean}-valued function) of one argument, potentially throwing an exception.
  *
- * @param <T1> the first argument type
+ * @param <T1> the 1st argument type
+ * @param <E> the potential exception type
  * @since 1.0.0
  */
-public interface Predicate1<T1> extends Function1<T1, Boolean> {
+public interface Predicate1E<T1, E extends Throwable> extends Function1E<T1, Boolean, E> {
   /**
    * Evaluates this predicate on the given argument.
    *
-   * @param t1 the first argument
+   * @param t1 the 1st input argument
    * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @throws E potential exception
    * @since 1.0.0
    */
-  boolean test(final T1 t1);
+  boolean test(final T1 t1) throws E;
 
+  // to satisfy Function1E
   @Override
-  default Boolean apply(final T1 t1) {
+  default Boolean apply(final T1 t1) throws E {
     return this.test(t1);
-  }
-
-  /**
-   * Gets a predicate that always returns {@code result}.
-   *
-   * @param <T1> the first argument type
-   * @return a predicate that always returns {@code result}
-   * @since 1.0.0
-   */
-  @SuppressWarnings("unchecked")
-  static <T1> @NonNull Predicate1<T1> constantly(final boolean result) {
-    return (Predicate1<T1>) (result ? Functions.P1_TRUE : Functions.P1_FALSE);
-  }
-
-  /**
-   * Converts a {@link Predicate1} into a {@link Predicate}.
-   *
-   * @param p1 the predicate
-   * @param <T1> the first argument type
-   * @return a java predicate
-   * @since 1.0.0
-   */
-  static <T1> @NonNull Predicate<T1> java(final @NonNull Predicate1<T1> p1) {
-    return p1::apply;
   }
 }

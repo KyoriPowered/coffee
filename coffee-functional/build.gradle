@@ -1,6 +1,5 @@
 dependencies {
   api("org.checkerframework:checker-qual:3.7.1")
-  api(project(":coffee"))
 }
 
 jar {

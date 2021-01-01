@@ -23,7 +23,6 @@
  */
 package net.kyori.coffee.functional.function;
 
-import java.util.function.Supplier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
@@ -63,17 +62,5 @@ public interface Function0<R> {
    */
   static <R> @NonNull Function0<@PolyNull R> constantly(final @PolyNull R result) {
     return () -> result;
-  }
-
-  /**
-   * Converts a {@link Function0} into a {@link Supplier}.
-   *
-   * @param fn0 the function
-   * @param <R> the result type
-   * @return a java supplier
-   * @since 1.0.0
-   */
-  static <R> @NonNull Supplier<R> java(final @NonNull Function0<R> fn0) {
-    return fn0::apply;
   }
 }

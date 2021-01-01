@@ -23,14 +23,13 @@
  */
 package net.kyori.coffee.functional.function;
 
-import java.util.function.Function;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
  * A function that accepts one argument and produces a result.
  *
- * @param <T1> the first argument type
+ * @param <T1> the 1st argument type
  * @param <R> the result type
  * @since 1.0.0
  */
@@ -39,7 +38,7 @@ public interface Function1<T1, R> {
   /**
    * Applies this function to the given argument.
    *
-   * @param t1 the first argument
+   * @param t1 the 1st argument
    * @return the result
    * @since 1.0.0
    */
@@ -48,7 +47,7 @@ public interface Function1<T1, R> {
   /**
    * Partially applies this function to the given argument.
    *
-   * @param t1 the first argument
+   * @param t1 the 1st argument
    * @return a 0-argument function
    * @since 1.0.0
    */
@@ -59,7 +58,7 @@ public interface Function1<T1, R> {
   /**
    * Gets a function that always returns the input.
    *
-   * @param <T1> the first argument type
+   * @param <T1> the 1st argument type
    * @return an identity function
    * @since 1.0.0
    */
@@ -71,7 +70,7 @@ public interface Function1<T1, R> {
   /**
    * Gets a function that always returns {@code result}.
    *
-   * @param <T1> the first argument type
+   * @param <T1> the 1st argument type
    * @param <R> the result type
    * @return a function
    * @since 1.0.0
@@ -83,27 +82,14 @@ public interface Function1<T1, R> {
   /**
    * Maps {@code t1} using {@code function}, and then returns the result.
    *
-   * @param t1 the first argument
+   * @param t1 the 1st argument
    * @param fn1 the function
-   * @param <T1> the first argument type
+   * @param <T1> the 1st argument type
    * @param <R> the result type
    * @return the result of mapping {@code t1} using {@code function}
    * @since 1.0.0
    */
   static <T1, R> R map(final T1 t1, final @NonNull Function1<T1, R> fn1) {
     return fn1.apply(t1);
-  }
-
-  /**
-   * Converts a {@link Function1} into a {@link Function}.
-   *
-   * @param fn1 the function
-   * @param <T1> the first argument type
-   * @param <R> the result type
-   * @return a java function
-   * @since 1.0.0
-   */
-  static <T1, R> @NonNull Function<T1, R> java(final @NonNull Function1<T1, R> fn1) {
-    return fn1::apply;
   }
 }

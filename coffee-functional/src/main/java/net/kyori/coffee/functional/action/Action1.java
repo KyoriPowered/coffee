@@ -21,46 +21,51 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.action;
 
-final class Functions {
-  static final Function1<Object, Object> F1_IDENTITY = t1 -> t1;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.checkerframework.checker.nullness.qual.PolyNull;
 
-  private Functions() {
+/**
+ * An action that accepts one input argument and returns no result.
+ *
+ * @param <T1> the 1st argument type
+ * @since 1.0.0
+ */
+@FunctionalInterface
+public interface Action1<T1> {
+  /**
+   * Performs this action on the given argument.
+   *
+   * @param t1 the 1st argument
+   * @since 1.0.0
+   */
+  void accept(final T1 t1);
+
+  /**
+   * Gets an action that always does nothing.
+   *
+   * @param <T1> the 1st argument type
+   * @return an action
+   * @since 1.0.0
+   */
+  @SuppressWarnings("unchecked")
+  static <T1> @NonNull Action1<T1> noop() {
+    return (Action1<T1>) Actions.A1_NOOP;
   }
 
-  static <R> Function0<R> memoizeF0(final Function0<R> fn0) {
-    if(fn0 instanceof MemoizeF0<?>) return fn0;
-    return new MemoizeF0<>(fn0);
-  }
-
-  private static final class MemoizeF0<R> implements Function0<R> {
-    private final Function0<R> fn0;
-    private volatile boolean memoized;
-    private R result;
-
-    MemoizeF0(final Function0<R> fn0) {
-      this.fn0 = fn0;
-    }
-
-    @Override
-    public R apply() {
-      if(!this.memoized) {
-        synchronized(this) {
-          if(!this.memoized) {
-            final R result = this.fn0.apply();
-            this.result = result;
-            this.memoized = true;
-            return result;
-          }
-        }
-      }
-      return this.result;
-    }
-
-    @Override
-    public String toString() {
-      return this.fn0.toString() + "[memoized]";
-    }
+  /**
+   * Provides {@code t1} to {@code a1}, and then returns {@code t1}.
+   *
+   * @param t1 the 1st argument
+   * @param a1 the action
+   * @param <T1> the 1st argument type
+   * @return the 1st argument
+   * @since 1.0.0
+   */
+  static <T1> @PolyNull T1 tap(final @PolyNull T1 t1, final @Nullable Action1<T1> a1) {
+    if(a1 != null) a1.accept(t1);
+    return t1;
   }
 }

@@ -24,11 +24,8 @@
 package net.kyori.coffee.functional.function;
 
 import java.util.UUID;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 
-import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -45,14 +42,5 @@ class Function0Test {
   void testConstantly() {
     final Function0<String> fn3 = Function0.constantly("strawberries");
     assertEquals("strawberries", fn3.apply());
-  }
-
-  @Test
-  void testJava() {
-    assertThat(
-      Stream.of("a", "b", "c")
-        .map(Function1.java(Function1.identity()))
-        .collect(Collectors.toList())
-    ).containsExactly("a", "b", "c").inOrder();
   }
 }

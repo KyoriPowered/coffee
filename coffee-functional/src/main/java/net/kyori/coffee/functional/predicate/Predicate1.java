@@ -21,17 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function.exceptional;
+package net.kyori.coffee.functional.predicate;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-import org.junit.jupiter.api.Test;
+import net.kyori.coffee.functional.function.Function1;
+import org.checkerframework.checker.nullness.qual.NonNull;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+/**
+ * A predicate ({@code boolean}-valued function) of one argument.
+ *
+ * @param <T1> the 1st argument type
+ * @since 1.0.0
+ */
+public interface Predicate1<T1> extends Function1<T1, Boolean> {
+  /**
+   * Evaluates this predicate on the given argument.
+   *
+   * @param t1 the 1st argument
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @since 1.0.0
+   */
+  boolean test(final T1 t1);
 
-class Consumer1ETest {
-  @Test
-  void testTap() {
-    final AtomicBoolean value = Consumer1E.tap(new AtomicBoolean(false), ab -> ab.set(true));
-    assertTrue(value.get());
+  @Override // to satisfy Function1
+  default Boolean apply(final T1 t1) {
+    return this.test(t1);
+  }
+
+  /**
+   * Gets a predicate that always returns {@code result}.
+   *
+   * @param <T1> the 1st argument type
+   * @return a predicate that always returns {@code result}
+   * @since 1.0.0
+   */
+  @SuppressWarnings("unchecked")
+  static <T1> @NonNull Predicate1<T1> constantly(final boolean result) {
+    return result
+      ? (Predicate1<T1>) Predicates.P1_TRUE
+      : (Predicate1<T1>) Predicates.P1_FALSE;
   }
 }

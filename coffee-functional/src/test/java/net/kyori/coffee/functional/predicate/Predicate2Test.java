@@ -21,27 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function.exceptional;
+package net.kyori.coffee.functional.predicate;
 
-/**
- * An operation that accepts three input arguments and returns no result, potentially throwing an exception.
- *
- * @param <T1> the first argument type
- * @param <T2> the second argument type
- * @param <T3> the third argument type
- * @param <E> the potential exception type
- * @since 1.0.0
- */
-@FunctionalInterface
-public interface Consumer3E<T1, T2, T3, E extends Throwable> {
-  /**
-   * Performs this operation on the given arguments.
-   *
-   * @param t1 the first argument
-   * @param t2 the second argument
-   * @param t3 the third argument
-   * @throws E potential exception
-   * @since 1.0.0
-   */
-  void accept(final T1 t1, final T2 t2, final T3 t3) throws E;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+class Predicate2Test {
+  @Test
+  void testConstantly() {
+    final Predicate2<Object, Object> alwaysFalse = Predicate2.constantly(false);
+    assertFalse(alwaysFalse.test(new Object(), new Object()));
+
+    final Predicate2<Object, Object> alwaysTrue = Predicate2.constantly(true);
+    assertTrue(alwaysTrue.test(new Object(), new Object()));
+  }
 }

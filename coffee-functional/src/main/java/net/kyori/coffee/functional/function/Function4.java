@@ -27,24 +27,28 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.PolyNull;
 
 /**
- * A function that accepts two arguments and produces a result.
+ * A function that accepts four arguments and produces a result.
  *
  * @param <T1> the 1st argument type
  * @param <T2> the 2nd argument type
+ * @param <T3> the 3rd argument type
+ * @param <T4> the 4th argument type
  * @param <R> the result type
  * @since 1.0.0
  */
 @FunctionalInterface
-public interface Function2<T1, T2, R> extends Function1<T1, Function1<T2, R>> {
+public interface Function4<T1, T2, T3, T4, R> extends Function3<T1, T2, T3, Function1<T4, R>> {
   /**
    * Applies this function to the given arguments.
    *
    * @param t1 the 1st argument
    * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
+   * @param t4 the 4th argument
    * @return the result
    * @since 1.0.0
    */
-  R apply(final T1 t1, final T2 t2);
+  R apply(final T1 t1, final T2 t2, final T3 t3, final T4 t4);
 
   /**
    * Partially applies this function to the given argument.
@@ -54,8 +58,35 @@ public interface Function2<T1, T2, R> extends Function1<T1, Function1<T2, R>> {
    * @since 1.0.0
    */
   @Override
-  default @NonNull Function1<T2, R> apply(final T1 t1) {
-    return t2 -> this.apply(t1, t2);
+  default @NonNull Function3<T2, T3, T4, R> apply(final T1 t1) {
+    return (t2, t3, t4) -> this.apply(t1, t2, t3, t4);
+  }
+
+  /**
+   * Partially applies this function to the given argument.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @return the result
+   * @since 1.0.0
+   */
+  @Override
+  default @NonNull Function2<T3, T4, R> apply(final T1 t1, final T2 t2) {
+    return (t3, t4) -> this.apply(t1, t2, t3, t4);
+  }
+
+  /**
+   * Partially applies this function to the given arguments.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @param t3 the 3rd argument
+   * @return the result
+   * @since 1.0.0
+   */
+  @Override
+  default @NonNull Function1<T4, R> apply(final T1 t1, final T2 t2, final T3 t3) {
+    return t4 -> this.apply(t1, t2, t3, t4);
   }
 
   /**
@@ -63,11 +94,13 @@ public interface Function2<T1, T2, R> extends Function1<T1, Function1<T2, R>> {
    *
    * @param <T1> the 1st argument type
    * @param <T2> the 2nd argument type
+   * @param <T3> the 3rd argument type
+   * @param <T4> the 4th argument type
    * @param <R> the result type
    * @return a function
    * @since 1.0.0
    */
-  static <T1, T2, R> @NonNull Function2<T1, T2, @PolyNull R> constantly(final @PolyNull R result) {
-    return (t1, t2) -> result;
+  static <T1, T2, T3, T4, R> @NonNull Function4<T1, T2, T3, T4, @PolyNull R> constantly(final @PolyNull R result) {
+    return (t1, t2, t3, t4) -> result;
   }
 }

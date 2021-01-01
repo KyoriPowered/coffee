@@ -21,46 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.predicate.exceptional;
 
-final class Functions {
-  static final Function1<Object, Object> F1_IDENTITY = t1 -> t1;
+import net.kyori.coffee.functional.function.exceptional.Function2E;
 
-  private Functions() {
-  }
+/**
+ * A predicate ({@code boolean}-valued function) of two arguments, potentially throwing an exception.
+ *
+ * @param <T1> the 1st argument type
+ * @param <T2> the 2nd argument type
+ * @param <E> the potential exception type
+ * @since 1.0.0
+ */
+public interface Predicate2E<T1, T2, E extends Throwable> extends Function2E<T1, T2, Boolean, E> {
+  /**
+   * Evaluates this predicate on the given argument.
+   *
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
+   * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
+   * @throws E potential exception
+   * @since 1.0.0
+   */
+  boolean test(final T1 t1, final T2 t2) throws E;
 
-  static <R> Function0<R> memoizeF0(final Function0<R> fn0) {
-    if(fn0 instanceof MemoizeF0<?>) return fn0;
-    return new MemoizeF0<>(fn0);
-  }
-
-  private static final class MemoizeF0<R> implements Function0<R> {
-    private final Function0<R> fn0;
-    private volatile boolean memoized;
-    private R result;
-
-    MemoizeF0(final Function0<R> fn0) {
-      this.fn0 = fn0;
-    }
-
-    @Override
-    public R apply() {
-      if(!this.memoized) {
-        synchronized(this) {
-          if(!this.memoized) {
-            final R result = this.fn0.apply();
-            this.result = result;
-            this.memoized = true;
-            return result;
-          }
-        }
-      }
-      return this.result;
-    }
-
-    @Override
-    public String toString() {
-      return this.fn0.toString() + "[memoized]";
-    }
+  // to satisfy Function2E
+  @Override
+  default Boolean apply(final T1 t1, final T2 t2) throws E {
+    return this.test(t1, t2);
   }
 }

@@ -21,30 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.predicate;
 
-import java.util.function.BiPredicate;
+import net.kyori.coffee.functional.function.Function2;
 import org.checkerframework.checker.nullness.qual.NonNull;
 
 /**
  * A predicate ({@code boolean}-valued function) of two arguments.
  *
- * @param <T1> the first argument type
- * @param <T2> the second argument type
+ * @param <T1> the 1st argument type
+ * @param <T2> the 2nd argument type
  * @since 1.0.0
  */
 public interface Predicate2<T1, T2> extends Function2<T1, T2, Boolean> {
   /**
    * Evaluates this predicate on the given argument.
    *
-   * @param t1 the first argument
-   * @param t2 the second argument
+   * @param t1 the 1st argument
+   * @param t2 the 2nd argument
    * @return {@code true} if the input argument matches the predicate, otherwise {@code false}
    * @since 1.0.0
    */
   boolean test(final T1 t1, final T2 t2);
 
-  @Override
+  @Override // to satisfy Function2
   default Boolean apply(final T1 t1, final T2 t2) {
     return this.test(t1, t2);
   }
@@ -52,25 +52,12 @@ public interface Predicate2<T1, T2> extends Function2<T1, T2, Boolean> {
   /**
    * Gets a predicate that always returns {@code result}.
    *
-   * @param <T1> the first argument type
-   * @param <T2> the second argument type
+   * @param <T1> the 1st argument type
+   * @param <T2> the 2nd argument type
    * @return a predicate that always returns {@code result}
    * @since 1.0.0
    */
   static <T1, T2> @NonNull Predicate2<T1, T2> constantly(final boolean result) {
     return (t1, t2) -> result;
-  }
-
-  /**
-   * Converts a {@link Predicate2} into a {@link BiPredicate}.
-   *
-   * @param fn1 the predicate
-   * @param <T1> the first argument type
-   * @param <T2> the second argument type
-   * @return a java predicate
-   * @since 1.0.0
-   */
-  static <T1, T2> @NonNull BiPredicate<T1, T2> java(final @NonNull Predicate2<T1, T2> fn1) {
-    return fn1::apply;
   }
 }

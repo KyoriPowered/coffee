@@ -21,20 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.kyori.coffee.functional.function;
+package net.kyori.coffee.functional.action;
 
-import org.junit.jupiter.api.Test;
+final class Actions {
+  static final Action0 A0_NOOP = () -> {
+  };
+  static final Action1<Object> A1_NOOP = t1 -> {
+  };
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-class Predicate2Test {
-  @Test
-  void testConstantly() {
-    final Predicate2<Object, Object> alwaysFalse = Predicate2.constantly(false);
-    assertFalse(alwaysFalse.test(new Object(), new Object()));
-
-    final Predicate2<Object, Object> alwaysTrue = Predicate2.constantly(true);
-    assertTrue(alwaysTrue.test(new Object(), new Object()));
+  private Actions() {
   }
 }
