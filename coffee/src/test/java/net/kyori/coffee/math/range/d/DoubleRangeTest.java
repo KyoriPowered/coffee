@@ -28,24 +28,37 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import net.kyori.coffee.math.Mth;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static net.kyori.test.Testing.assertNoneMatchd;
-import static net.kyori.test.Testing.assetAllMatchd;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DoubleRangeTest {
   @Test
-  void testBetween() {
+  void testRange() {
     final DoubleRange r0 = DoubleRange.between(2.1d, 4.1d);
     assertEquals(2.1d, r0.min());
     assertEquals(4.1d, r0.max());
-    assertNoneMatchd(r0, 1d, 2d, 4.2d, 5d);
-    assetAllMatchd(r0, 2.2d, 3d, 4.1d);
+  }
+
+  @ParameterizedTest
+  @ValueSource(doubles = {1d, 2d, 4.2d, 5d})
+  void testWithOutOfRangeValue(final double input) {
+    final DoubleRange r0 = DoubleRange.between(2.1d, 4.1d);
+    assertFalse(r0.test(input));
+  }
+
+  @ParameterizedTest
+  @ValueSource(doubles = {2.2d, 3d, 4.1d})
+  void testWithInRangeValue(final double input) {
+    final DoubleRange r0 = DoubleRange.between(2.1d, 4.1d);
+    assertTrue(r0.test(input));
   }
 
   @Test
-  void testBetweenRandom() {
+  void testRandom() {
     final DoubleRange r0 = DoubleRange.between(1.2d, 9.3d);
     final Random random = ThreadLocalRandom.current();
     for(int i = 0; i < 100; i++) {
@@ -56,10 +69,8 @@ class DoubleRangeTest {
   @Test
   void testEquality() {
     new EqualsTester()
-      .addEqualityGroup(
-        DoubleRange.between(0d, 10d),
-        DoubleRange.between(0d, 10d)
-      )
+      .addEqualityGroup(DoubleRange.between(0d, 5d))
+      .addEqualityGroup(DoubleRange.between(5d, 10d))
       .testEquals();
   }
 }

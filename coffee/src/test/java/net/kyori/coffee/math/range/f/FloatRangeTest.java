@@ -28,24 +28,37 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import net.kyori.coffee.math.Mth;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static net.kyori.test.Testing.assertNoneMatchf;
-import static net.kyori.test.Testing.assetAllMatchf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class FloatRangeTest {
   @Test
-  void testBetween() {
+  void testRange() {
     final FloatRange r0 = FloatRange.between(2.1f, 4.1f);
     assertEquals(2.1f, r0.min());
     assertEquals(4.1f, r0.max());
-    assertNoneMatchf(r0, 1f, 2f, 4.2f, 5f);
-    assetAllMatchf(r0, 2.2f, 3f, 4.1f);
+  }
+
+  @ParameterizedTest
+  @ValueSource(floats = {1f, 2f, 4.2f, 5f})
+  void testWithOutOfRangeValue(final float input) {
+    final FloatRange r0 = FloatRange.between(2.1f, 4.1f);
+    assertFalse(r0.test(input));
+  }
+
+  @ParameterizedTest
+  @ValueSource(floats = {2.2f, 3f, 4.1f})
+  void testWithInRangeValue(final float input) {
+    final FloatRange r0 = FloatRange.between(2.1f, 4.1f);
+    assertTrue(r0.test(input));
   }
 
   @Test
-  void testBetweenRandom() {
+  void testRandom() {
     final FloatRange r0 = FloatRange.between(1.2f, 9.3f);
     final Random random = ThreadLocalRandom.current();
     for(int i = 0; i < 100; i++) {
@@ -56,10 +69,8 @@ class FloatRangeTest {
   @Test
   void testEquality() {
     new EqualsTester()
-      .addEqualityGroup(
-        FloatRange.between(0f, 10f),
-        FloatRange.between(0f, 10f)
-      )
+      .addEqualityGroup(FloatRange.between(0f, 5f))
+      .addEqualityGroup(FloatRange.between(5f, 10f))
       .testEquals();
   }
 }

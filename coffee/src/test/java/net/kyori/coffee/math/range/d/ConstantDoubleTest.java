@@ -27,18 +27,31 @@ import com.google.common.testing.EqualsTester;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static net.kyori.test.Testing.assertNoneMatchd;
-import static net.kyori.test.Testing.assetAllMatchd;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConstantDoubleTest {
   @Test
   void testConstant() {
     final ConstantDouble r0 = ConstantDouble.constantly(2d);
     assertEquals(2d, r0.value());
-    assetAllMatchd(r0, 2d);
-    assertNoneMatchd(r0, 1d, 3d);
+  }
+
+  @ParameterizedTest
+  @ValueSource(doubles = {1d, 3d})
+  void testWithOutOfRangeValue(final double input) {
+    final ConstantDouble r0 = ConstantDouble.constantly(2d);
+    assertFalse(r0.test(input));
+  }
+
+  @Test
+  void testWithInRangeValue() {
+    final ConstantDouble r0 = ConstantDouble.constantly(2d);
+    assertTrue(r0.test(2d));
   }
 
   @Test
@@ -53,10 +66,8 @@ class ConstantDoubleTest {
   @Test
   void testEquality() {
     new EqualsTester()
-      .addEqualityGroup(
-        ConstantDouble.constantly(6d),
-        ConstantDouble.constantly(6d)
-      )
+      .addEqualityGroup(ConstantDouble.constantly(2d))
+      .addEqualityGroup(ConstantDouble.constantly(3d))
       .testEquals();
   }
 }

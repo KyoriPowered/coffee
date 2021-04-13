@@ -27,18 +27,31 @@ import com.google.common.testing.EqualsTester;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-import static net.kyori.test.Testing.assertNoneMatchf;
-import static net.kyori.test.Testing.assetAllMatchf;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ConstantFloatTest {
   @Test
   void testConstant() {
     final ConstantFloat r0 = ConstantFloat.constantly(2f);
     assertEquals(2f, r0.value());
-    assetAllMatchf(r0, 2f);
-    assertNoneMatchf(r0, 1f, 3f);
+  }
+
+  @ParameterizedTest
+  @ValueSource(floats = {1f, 3f})
+  void testWithOutOfRangeValue(final float input) {
+    final ConstantFloat r0 = ConstantFloat.constantly(2f);
+    assertFalse(r0.test(input));
+  }
+
+  @Test
+  void testWithInRangeValue() {
+    final ConstantFloat r0 = ConstantFloat.constantly(2f);
+    assertTrue(r0.test(2f));
   }
 
   @Test
@@ -53,10 +66,8 @@ class ConstantFloatTest {
   @Test
   void testEquality() {
     new EqualsTester()
-      .addEqualityGroup(
-        ConstantFloat.constantly(6f),
-        ConstantFloat.constantly(6f)
-      )
+      .addEqualityGroup(ConstantFloat.constantly(2f))
+      .addEqualityGroup(ConstantFloat.constantly(3f))
       .testEquals();
   }
 }
